@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fade and Scroll</title>
+</head>
+<style>
+    /* styles.css */
+.container {
+    height: 1000px; /* Adjust the height as needed */
+}
+
+.item {
+    opacity: 0;
+    transform: translateY(20px); /* Initial position off-screen */
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.fade-in {
+    animation: none; /* Disable CSS animations initially */
+}
+
+</style>
+
+<body>
+    <div class="container">
+        <div class="item fade-in">Item 1</div>
+        <div class="item fade-in">Item 2</div>
+        <div class="item fade-in">Item 3</div>
+        <!-- Add more items as needed -->
+    </div>
+    <script>
+        // script.js
+const items = document.querySelectorAll('.item');
+const container = document.querySelector('.container');
+
+function fadeInItems() {
+    items.forEach((item, index) => {
+        if (isElementInViewport(item)) {
+            item.style.opacity = 1;
+            item.style.transform = 'translateY(0)';
+            item.classList.add('fade-in'); // Enable CSS animations
+        }
+    });
+}
+
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Initially fade in items that are in the viewport on page load
+fadeInItems();
+
+// Listen for the scroll event and fade in items as they come into view
+container.addEventListener('scroll', fadeInItems);
+
+    </script>
+</body>
+</html>
